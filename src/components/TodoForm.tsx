@@ -5,19 +5,12 @@ interface ITodoFormProps {
 }
 
 export const TodoForm: React.FC<ITodoFormProps> = props => {
-  // const [title, setTitle] = useState<string>('')
-  const ref= useRef<HTMLInputElement>(null)
-
-  // const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setTitle(event.target?.value)
-  // }
+  const ref = useRef<HTMLInputElement>(null)
 
   const keyPressHandler = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
       props.onAdd(ref.current!.value);
       ref.current!.value = '';
-      // console.log('title', title)
-      // setTitle('');
     }
   }
 
@@ -27,8 +20,6 @@ export const TodoForm: React.FC<ITodoFormProps> = props => {
         type="text"
         id="title"
         placeholder="Введите название"
-        // value={title}
-        // onChange={changeHandler}
         ref={ref}
         onKeyPress={keyPressHandler}
       />
