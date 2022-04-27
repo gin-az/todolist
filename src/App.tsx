@@ -1,11 +1,23 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {Navbar} from "./components/Navbar";
 import {TodoForm} from "./components/TodoForm";
 import {TodoList} from "./components/TodoList";
 import {ITodo} from "./interfaces";
 
+// такая переменная точно есть. Чтобы при Confirm не писать глоб.объект Window
+declare var confirm: (question: string) => boolean;
+
 const App: FC = () => {
   const [todos, setTodos] = useState<ITodo[]>([])
+
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem('todos') || '[]') as ITodo[]
+    setTodos(saved)
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos))
+  }, [todos])
 
   const addHandler = (title: string):void => {
     const newTodo: ITodo = {
@@ -40,7 +52,8 @@ const App: FC = () => {
   // }
 
   const removeHandler = (id: number) => {
-    setTodos(prev =>
+    const isOkRemove = confirm('Вы уверены, что хотите удалить элемент?');
+    isOkRemove && setTodos(prev =>
     prev.filter(todo => todo.id !== id))
   }
 
@@ -50,13 +63,13 @@ const App: FC = () => {
       <div className="container">
         <h1>Заголовок</h1>
         <TodoForm onAdd={addHandler}/>
-        {todos.length > 0
+        {todos?.length > 0
           ? <TodoList
               todos={todos}
               onToggle={toggleHandler}
               onRemove={removeHandler}
             />
-          : <label> Дел нет.</label>}
+          : <p className="center"> Дел нет.</p>}
       </div>
     </>
   );
