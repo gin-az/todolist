@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 export const Navbar = () => {
   return (
@@ -6,8 +7,8 @@ export const Navbar = () => {
       <div className="nav-wrapper pink darken-2 px1">
         <a href="#" className="brand-logo">React(TS) - TODOLIST</a>
         <ul id="nav-mobile" className="right hide-on-med-and-down">
-          <li><a href="/">Список дел</a></li>
-          <li><a href="/">Обо мне</a></li>
+          <li><Link to="/">Список дел</Link></li>
+          <li><Link to="about">Обо мне</Link></li>
         </ul>
       </div>
     </nav>
